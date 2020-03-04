@@ -53,6 +53,7 @@ if __name__ == '__main__':
                 gt.watch(weights)
 
             potential = pot_init((HOLES,), dtype=tf.dtypes.float64)
+            potential = tf.nn.softmax(potential)
             '''
             potential = tf.ones((HOLES,), dtype=tf.dtypes.float64)
             '''
@@ -104,7 +105,8 @@ if __name__ == '__main__':
             print(f'epoch: {epoch}    loss: {loss.numpy()}')
 
     for weights in all_weights:
-        print(tf.nn.softmax(weights) * tf.constant(100, dtype=tf.dtypes.float64))
+        w_arr = tf.nn.softmax(weights).numpy() * 100
+        print(' '.join([f'{int(w>50)}' for w in w_arr]))
 
 
 
